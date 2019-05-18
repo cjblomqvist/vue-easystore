@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cjblomqvist/vue-simplestore.git"
+    "url": "git+https://github.com/cjblomqvist/vue-easystore.git"
   },
   "keywords": [
     "vue",
@@ -23,7 +23,7 @@
   "author": "Carl-Johan Blomqvist",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cjblomqvist/vue-simplestore/issues"
+    "url": "https://github.com/cjblomqvist/vue-easystore/issues"
   },
-  "homepage": "https://github.com/cjblomqvist/vue-simplestore#readme"
+  "homepage": "https://github.com/cjblomqvist/vue-easystore#readme"
 }
