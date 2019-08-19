@@ -22,12 +22,13 @@ class StoreFactory {
     this.state = state;
     this.modules = {};
 
-    const { computed, data } = this.separate(base, state);
+    const { computed, data, watch } = this.separate(base, state);
 
     return new Vue({
       data() {
         return data;
       },
+      watch,
       computed: Object.assign(computed, {
         state() {
           // Helper functions
@@ -67,14 +68,15 @@ class StoreFactory {
           }
 
           // Do the actual adding
-          const { computed, data } = storeFactory.separate(module(this), state[name]);
+          const { computed, data, watch } = storeFactory.separate(module(this), state[name]);
 
           if (Object.keys(computed).length) {
             this[name] = new Vue({
               data() {
                 return data;
               },
-              computed
+              computed,
+              watch
             });
           } else {
             this[name] = Vue.observable(data);
@@ -90,12 +92,16 @@ class StoreFactory {
   // (which includes regular functions, which gets added
   // as data but will be treated as methods, more or less).
   separate(obj, state = {}) {
-    let data = {};
-    let computed = {};
+    const data = {};
+    const computed = {};
+    const watch = obj.watch;
 
     // Loop through all properties and sort out all computed properties and merge in eventual external state
     Object.entries(obj).forEach(([key, value]) => {
-      let descriptor = Object.getOwnPropertyDescriptor(obj, key);
+      // Skip watched properties
+      if (key === 'watch') return;
+
+      const descriptor = Object.getOwnPropertyDescriptor(obj, key);
 
       if (typeof descriptor.get === 'function') {
         computed[key] = descriptor.get;
@@ -108,7 +114,7 @@ class StoreFactory {
       }
     });
 
-    return { computed, data };
+    return { computed, data, watch };
   }
 }
 
