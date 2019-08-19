@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import isFunction from 'lodash/isFunction';
+import fromPairs from 'lodash/fromPairs';
 
 // Turn into reactive store
 // ------------------------
@@ -32,8 +33,6 @@ class StoreFactory {
       computed: Object.assign(computed, {
         state() {
           // Helper functions
-          // The same as _.fromPairs, i.e. converting [[key, value], [key2, value2], ...] => { key: value, key2: value2, ... }
-          const fromPairs = (arr) => arr.reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
           // Filter out functions from object
           const filterFunctions = (obj) => fromPairs(Object.entries(obj).filter(([key, value]) => !isFunction(value)));
 
