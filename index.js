@@ -17,7 +17,7 @@ import fromPairs from 'lodash/fromPairs';
 // each Vue instance.
 //   2. Do we need setters? So far no.
 class StoreFactory {
-  constructor(base = {}, state = {}) {
+  constructor(base = {}, state = {}, context) {
     const storeFactory = this;
 
     this.state = state;
@@ -66,7 +66,7 @@ class StoreFactory {
           }
 
           // Do the actual adding
-          const { computed, data } = storeFactory.separate(module(this), state[name]);
+          const { computed, data } = storeFactory.separate(module(this, context), state[name]);
 
           if (Object.keys(computed).length || (data && data.created)) {
             this[name] = new Vue({
